@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 # core
 gem 'rails', '4.1.1'
-gem 'sqlite3'
+gem 'pg'
 gem 'devise'
 
 # frontend
@@ -13,6 +13,9 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
+
+# assets fix
+gem 'rails_12factor', group: :production
 
 # doc
 gem 'sdoc', '~> 0.4.0',          group: :doc
