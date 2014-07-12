@@ -18,13 +18,14 @@
   - else
     '  There are no answers to this question.
 
-  h3 Add answer
+  - if !@question.accepted_answer_id
 
-  = form_for [@question, @answer] do |f|
+      h3 Add answer
 
-    .field
-      = f.label :contents
-      = f.text_area :contents
+      = form_for [@question, @answer] do |f|
 
-    .actions= f.submit 'Save'
+        .field
+          = f.label :contents
+          = f.text_area :contents
 
+        .actions= f.submit 'Save'

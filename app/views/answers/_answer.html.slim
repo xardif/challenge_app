@@ -1,8 +1,14 @@
 .answer id="answer-#{answer.id}"
-  .contents= answer.contents
+  .contents
+  = answer.contents
+  - if answer.id == @question.accepted_answer_id
+  	.green Accepted
   .details
     '  Answered on
     = l(answer.created_at, format: :long)
     '  by
     = link_to answer.user, user_path(answer.user)
-
+  
+  .options
+  - if current_user == @question.user && current_user != answer.user && !current_user.blank? && !@question.accepted_answer_id
+    = link_to 'Accept', question_answer_accept_url(@question, answer)

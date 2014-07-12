@@ -1,0 +1,157 @@
+Feature: 
+  When someone adds a correct answer to my question
+  I want to accept this answer to thank the author
+  
+  Once an answer is accepted
+  Users can't add new answers to the question
+  
+  Only author of the question can accept answers
+
+  Background:       # features/features/accepting_answers.feature:10
+    Given I am user # features/step_definitions/auth_steps.rb:1
+
+  Scenario: Accepting answers                         # features/features/accepting_answers.feature:13
+    Given I created a question                        # features/step_definitions/question_steps.rb:33
+    And There is answer to that question              # features/step_definitions/answers_steps.rb:23
+    When I accept that answer                         # features/step_definitions/accepting_answer_steps.rb:1
+    Then That answer should be marked as accepted     # features/step_definitions/accepting_answer_steps.rb:8
+    And It should not be possible to add more answers # features/step_definitions/accepting_answer_steps.rb:14
+
+Feature: Answering questions
+  In order to answer questions
+  I need to create a profile first
+
+  Background:               # features/features/answers.feature:5
+    Given I am user         # features/step_definitions/auth_steps.rb:1
+    And There is a question # features/step_definitions/question_steps.rb:25
+
+  Scenario: Answering question                      # features/features/answers.feature:9
+    When I answer this question                     # features/step_definitions/answers_steps.rb:1
+    Then I should see the answer on question's page # features/step_definitions/answers_steps.rb:13
+
+  Scenario: Adding empty answer                         # features/features/answers.feature:13
+    When I answer this question with empty contents     # features/step_definitions/answers_steps.rb:7
+    Then I should not see the answer on question's page # features/step_definitions/answers_steps.rb:18
+    And I should see the error message                  # features/step_definitions/common_steps.rb:1
+
+Feature: Liking answers
+  All users, including question's author, can like answers added by other users.
+  This is a way of voting for the best answer to the question.
+  It should be visible how many likes an answer has received.
+
+  Background:                           # features/features/liking_answers.feature:6
+    Given I am user                     # features/step_definitions/auth_steps.rb:1
+    And There is a question with answer # features/features/liking_answers.feature:8
+      Ambiguous match of "There is a question with answer":
+
+      features/step_definitions/answers_steps.rb:27:in `/^There is a question with answer$/'
+      features/step_definitions/question_steps.rb:25:in `/^There is a question/'
+
+      You can run again with --guess to make Cucumber be more smart about it
+       (Cucumber::Ambiguous)
+      features/features/liking_answers.feature:8:in `And There is a question with answer'
+
+  Scenario: Liking answer               # features/features/liking_answers.feature:10
+    When I like that answer             # features/step_definitions/liking_answer_steps.rb:1
+    Then That answer should have 1 like # features/step_definitions/liking_answer_steps.rb:8
+
+Feature: Points
+  User are awarded points for certain actions
+  And use the points to create questions.
+  When they accumulate certain amount of points
+  Then they are awarded badges that are visible in their profiles.
+  
+  User receives 100 free points upon registration.
+  Creating a question costs 10 points.
+  When user's answer is likes she receives 5 points.
+  When user's answer is accepted she receives 25 points.
+  
+  If user does not have enough points, she can't create a question.
+  
+  When user accumulate 1000 points she receives a "Superstar" badge.
+  Badges are awarded indifinitely and do not disappear even when user loses his points.
+
+  Background:             # features/features/points.feature:17
+    Given I am user       # features/step_definitions/auth_steps.rb:1
+    And I have 100 points # features/step_definitions/points_steps.rb:5
+      undefined method `points=' for #<User:0x00000004b88428> (NoMethodError)
+      ./features/step_definitions/points_steps.rb:6:in `/^I have (\d+) points$/'
+      features/features/points.feature:19:in `And I have 100 points'
+
+  Scenario: Creating question    # features/features/points.feature:21
+    When I create a question     # features/step_definitions/question_steps.rb:1
+    Then I should have 90 points # features/step_definitions/points_steps.rb:1
+
+  Scenario: Having answer liked   # features/features/points.feature:25
+    Given I added an answer       # features/step_definitions/answers_steps.rb:31
+    When This answer is liked     # features/step_definitions/liking_answer_steps.rb:14
+    Then I should have 105 points # features/step_definitions/points_steps.rb:1
+
+  Scenario: Having answer accepted # features/features/points.feature:30
+    Given I added an answer        # features/step_definitions/answers_steps.rb:31
+    When This answer is accepted   # features/step_definitions/liking_answer_steps.rb:24
+    Then I should have 125 points  # features/step_definitions/points_steps.rb:1
+
+Feature: Questions
+  In order to add questions
+  I need to create a profile first
+  Then I can add and edit my own questions
+  And I can accept answers to my questions
+
+  Background:       # features/features/questions.feature:7
+    Given I am user # features/step_definitions/auth_steps.rb:1
+
+  Scenario: Creating questions      # features/features/questions.feature:10
+    When I create a question        # features/step_definitions/question_steps.rb:1
+    Then I should see this question # features/step_definitions/question_steps.rb:15
+
+  Scenario: Creating questions with empty title # features/features/questions.feature:14
+    When I create a question with empty title   # features/step_definitions/question_steps.rb:8
+    Then I should not see this question         # features/step_definitions/question_steps.rb:20
+      expected not to find text "by user10@example.com" in "Question was successfully created.Challenge App | Welcome, user10@example.com | Edit profile | Sign out Created on July 12, 2014 23:00 by user10@example.comLong question description.Edit | DeleteAnswers There are no answers to this question. Add answerContents" (RSpec::Expectations::ExpectationNotMetError)
+      ./features/step_definitions/question_steps.rb:22:in `/^I should not see this question$/'
+      ./features/support/env.rb:71:in `call'
+      ./features/support/env.rb:71:in `block (2 levels) in <top (required)>'
+      ./spec/support/database.rb:7:in `config_cleaner'
+      ./features/support/env.rb:71:in `block in <top (required)>'
+      features/features/questions.feature:16:in `Then I should not see this question'
+    And I should see the error message          # features/step_definitions/common_steps.rb:1
+
+  Scenario: Editing question                              # features/features/questions.feature:19
+    Given There is a question created by another user     # features/step_definitions/question_steps.rb:25
+    Then I do not see "Edit" link on this question's page # features/step_definitions/question_steps.rb:29
+      expected not to find text "Edit" in "Signed in successfully.Challenge App | Welcome, user11@example.com | Edit profile | Sign outQuestionsNew Question" (RSpec::Expectations::ExpectationNotMetError)
+      ./features/step_definitions/question_steps.rb:30:in `/^I do not see "(.*?)" link on this question's page$/'
+      ./features/support/env.rb:71:in `call'
+      ./features/support/env.rb:71:in `block (2 levels) in <top (required)>'
+      ./spec/support/database.rb:7:in `config_cleaner'
+      ./features/support/env.rb:71:in `block in <top (required)>'
+      features/features/questions.feature:21:in `Then I do not see "Edit" link on this question's page'
+
+  Scenario: Delete question                                 # features/features/questions.feature:23
+    Given There is a question created by another user       # features/step_definitions/question_steps.rb:25
+    Then I do not see "Delete" link on this question's page # features/step_definitions/question_steps.rb:29
+
+Feature: Registration
+
+  Scenario: Receiving free points # features/features/registration.feature:3
+    When I create a profile       # features/step_definitions/registration_steps.rb:3
+      Ambiguous match, found 2 elements matching link or button "Sign up" (Capybara::Ambiguous)
+      ./features/step_definitions/registration_steps.rb:10:in `/^I create a profile$/'
+      ./features/support/env.rb:71:in `call'
+      ./features/support/env.rb:71:in `block (2 levels) in <top (required)>'
+      ./spec/support/database.rb:7:in `config_cleaner'
+      ./features/support/env.rb:71:in `block in <top (required)>'
+      features/features/registration.feature:4:in `When I create a profile'
+    Then I should have 100 points # features/step_definitions/points_steps.rb:1
+
+Failing Scenarios:
+cucumber features/features/liking_answers.feature:10 # Scenario: Liking answer
+cucumber features/features/points.feature:21 # Scenario: Creating question
+cucumber features/features/questions.feature:14 # Scenario: Creating questions with empty title
+cucumber features/features/questions.feature:19 # Scenario: Editing question
+cucumber features/features/registration.feature:3 # Scenario: Receiving free points
+
+12 scenarios (5 failed, 2 skipped, 5 passed)
+48 steps (5 failed, 16 skipped, 27 passed)
+0m1.415s

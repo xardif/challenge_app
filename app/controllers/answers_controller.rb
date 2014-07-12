@@ -7,13 +7,24 @@ class AnswersController < ApplicationController
     @answer.user = current_user
     @answer.question = @question
 
-
     if answer_params[:contents].empty?
       redirect_to question_path(@question), alert: "There was an error when adding answer."
     elsif @answer.save
       redirect_to question_path(@question), notice: "Answer was successfully created."
     else
       redirect_to question_path(@question), alert: "There was an error when adding answer."
+    end
+  end
+
+  def accept
+    if current_user != @question.user
+      redirect_to question_path(@question), alert: "You cannot accept this answer."
+    elsif !@question.accepted_answer_id
+      @question.accepted_answer_id = params[:id]
+      @question.save
+      redirect_to question_path(@question), notice: "You accepted an answer."
+    else
+      redirect_to question_path(@question), alert: "This question already has an accepted answer."
     end
   end
 

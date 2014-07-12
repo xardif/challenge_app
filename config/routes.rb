@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resources :questions do
     resources :answers, only: [:create]
+    get "answers/:id/accept" => 'answers#accept', as: :answer_accept
   end
 
   resources :users, only: [:show]
