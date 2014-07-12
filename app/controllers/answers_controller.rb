@@ -7,7 +7,10 @@ class AnswersController < ApplicationController
     @answer.user = current_user
     @answer.question = @question
 
-    if @answer.save
+
+    if answer_params[:contents].empty?
+      redirect_to question_path(@question), alert: "There was an error when adding answer."
+    elsif @answer.save
       redirect_to question_path(@question), notice: "Answer was successfully created."
     else
       redirect_to question_path(@question), alert: "There was an error when adding answer."
@@ -24,4 +27,5 @@ class AnswersController < ApplicationController
     def answer_params
       params.require(:answer).permit(:contents)
     end
+
 end
