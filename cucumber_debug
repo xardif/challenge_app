@@ -41,15 +41,7 @@ Feature: Liking answers
 
   Background:                           # features/features/liking_answers.feature:6
     Given I am user                     # features/step_definitions/auth_steps.rb:1
-    And There is a question with answer # features/features/liking_answers.feature:8
-      Ambiguous match of "There is a question with answer":
-
-      features/step_definitions/answers_steps.rb:27:in `/^There is a question with answer$/'
-      features/step_definitions/question_steps.rb:25:in `/^There is a question/'
-
-      You can run again with --guess to make Cucumber be more smart about it
-       (Cucumber::Ambiguous)
-      features/features/liking_answers.feature:8:in `And There is a question with answer'
+    And There is a question with answer # features/step_definitions/answers_steps.rb:27
 
   Scenario: Liking answer               # features/features/liking_answers.feature:10
     When I like that answer             # features/step_definitions/liking_answer_steps.rb:1
@@ -79,46 +71,14 @@ Feature: Points
     When I create a question     # features/step_definitions/question_steps.rb:1
     Then I should have 90 points # features/step_definitions/points_steps.rb:1
 
-      expected #<Fixnum:201> => 100
-           got #<Fixnum:181> => 90
-
-      Compared using equal?, which compares object identity,
-      but expected and actual are not the same object. Use
-      `expect(actual).to eq(expected)` if you don't care about
-      object identity in this example.
-
-       (RSpec::Expectations::ExpectationNotMetError)
-      ./features/step_definitions/points_steps.rb:2:in `/^I should have (\d+) points$/'
-      ./features/support/env.rb:71:in `call'
-      ./features/support/env.rb:71:in `block (2 levels) in <top (required)>'
-      ./spec/support/database.rb:7:in `config_cleaner'
-      ./features/support/env.rb:71:in `block in <top (required)>'
-      features/features/points.feature:23:in `Then I should have 90 points'
-
   Scenario: Having answer liked   # features/features/points.feature:25
     Given I added an answer       # features/step_definitions/answers_steps.rb:31
     When This answer is liked     # features/step_definitions/liking_answer_steps.rb:14
-      Unable to find field "Email" (Capybara::ElementNotFound)
-      ./spec/support/authorization.rb:5:in `sign_in_as'
-      ./features/step_definitions/liking_answer_steps.rb:15:in `/^This answer is liked$/'
-      ./features/support/env.rb:71:in `call'
-      ./features/support/env.rb:71:in `block (2 levels) in <top (required)>'
-      ./spec/support/database.rb:7:in `config_cleaner'
-      ./features/support/env.rb:71:in `block in <top (required)>'
-      features/features/points.feature:27:in `When This answer is liked'
     Then I should have 105 points # features/step_definitions/points_steps.rb:1
 
   Scenario: Having answer accepted # features/features/points.feature:30
     Given I added an answer        # features/step_definitions/answers_steps.rb:31
-    When This answer is accepted   # features/step_definitions/liking_answer_steps.rb:24
-      Unable to find field "Email" (Capybara::ElementNotFound)
-      ./spec/support/authorization.rb:5:in `sign_in_as'
-      ./features/step_definitions/liking_answer_steps.rb:25:in `/^This answer is accepted$/'
-      ./features/support/env.rb:71:in `call'
-      ./features/support/env.rb:71:in `block (2 levels) in <top (required)>'
-      ./spec/support/database.rb:7:in `config_cleaner'
-      ./features/support/env.rb:71:in `block in <top (required)>'
-      features/features/points.feature:32:in `When This answer is accepted'
+    When This answer is accepted   # features/step_definitions/liking_answer_steps.rb:29
     Then I should have 125 points  # features/step_definitions/points_steps.rb:1
 
 Feature: Questions
@@ -151,22 +111,8 @@ Feature: Registration
 
   Scenario: Receiving free points # features/features/registration.feature:3
     When I create a profile       # features/step_definitions/registration_steps.rb:3
-      Ambiguous match, found 2 elements matching link or button "Sign up" (Capybara::Ambiguous)
-      ./features/step_definitions/registration_steps.rb:10:in `/^I create a profile$/'
-      ./features/support/env.rb:71:in `call'
-      ./features/support/env.rb:71:in `block (2 levels) in <top (required)>'
-      ./spec/support/database.rb:7:in `config_cleaner'
-      ./features/support/env.rb:71:in `block in <top (required)>'
-      features/features/registration.feature:4:in `When I create a profile'
     Then I should have 100 points # features/step_definitions/points_steps.rb:1
 
-Failing Scenarios:
-cucumber features/features/liking_answers.feature:10 # Scenario: Liking answer
-cucumber features/features/points.feature:21 # Scenario: Creating question
-cucumber features/features/points.feature:25 # Scenario: Having answer liked
-cucumber features/features/points.feature:30 # Scenario: Having answer accepted
-cucumber features/features/registration.feature:3 # Scenario: Receiving free points
-
-12 scenarios (5 failed, 7 passed)
-48 steps (5 failed, 5 skipped, 38 passed)
-0m1.800s
+12 scenarios (12 passed)
+48 steps (48 passed)
+0m2.175s

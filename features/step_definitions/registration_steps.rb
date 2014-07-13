@@ -7,7 +7,7 @@ When(/^I create a profile$/) do
   fill_in "Email", with: email
   fill_in "Password", with: "password"
   fill_in "Password confirmation", with: "password"
-  click_on "Sign up"
+  click_button "Sign up"
 
   @user = User.find_by(email: email)
 end
