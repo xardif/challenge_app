@@ -1,6 +1,14 @@
 .user id="user-#{@user.id}"
   h2= @user
 
+  p
+    'Points: 
+    = @user.points
+
+  p
+  - if @user.badged?
+    'Superstar
+
   .questions
     h3 Questions
 

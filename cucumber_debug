@@ -74,22 +74,51 @@ Feature: Points
   Background:             # features/features/points.feature:17
     Given I am user       # features/step_definitions/auth_steps.rb:1
     And I have 100 points # features/step_definitions/points_steps.rb:5
-      undefined method `points=' for #<User:0x0000000469e4f8> (NoMethodError)
-      ./features/step_definitions/points_steps.rb:6:in `/^I have (\d+) points$/'
-      features/features/points.feature:19:in `And I have 100 points'
 
   Scenario: Creating question    # features/features/points.feature:21
     When I create a question     # features/step_definitions/question_steps.rb:1
     Then I should have 90 points # features/step_definitions/points_steps.rb:1
 
+      expected #<Fixnum:201> => 100
+           got #<Fixnum:181> => 90
+
+      Compared using equal?, which compares object identity,
+      but expected and actual are not the same object. Use
+      `expect(actual).to eq(expected)` if you don't care about
+      object identity in this example.
+
+       (RSpec::Expectations::ExpectationNotMetError)
+      ./features/step_definitions/points_steps.rb:2:in `/^I should have (\d+) points$/'
+      ./features/support/env.rb:71:in `call'
+      ./features/support/env.rb:71:in `block (2 levels) in <top (required)>'
+      ./spec/support/database.rb:7:in `config_cleaner'
+      ./features/support/env.rb:71:in `block in <top (required)>'
+      features/features/points.feature:23:in `Then I should have 90 points'
+
   Scenario: Having answer liked   # features/features/points.feature:25
     Given I added an answer       # features/step_definitions/answers_steps.rb:31
     When This answer is liked     # features/step_definitions/liking_answer_steps.rb:14
+      Unable to find field "Email" (Capybara::ElementNotFound)
+      ./spec/support/authorization.rb:5:in `sign_in_as'
+      ./features/step_definitions/liking_answer_steps.rb:15:in `/^This answer is liked$/'
+      ./features/support/env.rb:71:in `call'
+      ./features/support/env.rb:71:in `block (2 levels) in <top (required)>'
+      ./spec/support/database.rb:7:in `config_cleaner'
+      ./features/support/env.rb:71:in `block in <top (required)>'
+      features/features/points.feature:27:in `When This answer is liked'
     Then I should have 105 points # features/step_definitions/points_steps.rb:1
 
   Scenario: Having answer accepted # features/features/points.feature:30
     Given I added an answer        # features/step_definitions/answers_steps.rb:31
     When This answer is accepted   # features/step_definitions/liking_answer_steps.rb:24
+      Unable to find field "Email" (Capybara::ElementNotFound)
+      ./spec/support/authorization.rb:5:in `sign_in_as'
+      ./features/step_definitions/liking_answer_steps.rb:25:in `/^This answer is accepted$/'
+      ./features/support/env.rb:71:in `call'
+      ./features/support/env.rb:71:in `block (2 levels) in <top (required)>'
+      ./spec/support/database.rb:7:in `config_cleaner'
+      ./features/support/env.rb:71:in `block in <top (required)>'
+      features/features/points.feature:32:in `When This answer is accepted'
     Then I should have 125 points  # features/step_definitions/points_steps.rb:1
 
 Feature: Questions
@@ -108,7 +137,7 @@ Feature: Questions
   Scenario: Creating questions with empty title # features/features/questions.feature:14
     When I create a question with empty title   # features/step_definitions/question_steps.rb:8
     Then I should not see this question         # features/step_definitions/question_steps.rb:20
-      expected not to find text "by user10@example.com" in "Question was successfully created.Challenge App | Welcome, user10@example.com | Edit profile | Sign out Created on July 13, 2014 00:28 by user10@example.comLong question description.Edit | DeleteAnswers There are no answers to this question. Add answerContents" (RSpec::Expectations::ExpectationNotMetError)
+      expected not to find text "by user16@example.com" in "Question was successfully created.Challenge App | Welcome, user16@example.com | Points: 90 | Edit profile | Sign out Created on July 13, 2014 02:27 by user16@example.comLong question description.Edit | DeleteAnswers There are no answers to this question. Add answerContents" (RSpec::Expectations::ExpectationNotMetError)
       ./features/step_definitions/question_steps.rb:22:in `/^I should not see this question$/'
       ./features/support/env.rb:71:in `call'
       ./features/support/env.rb:71:in `block (2 levels) in <top (required)>'
@@ -120,7 +149,7 @@ Feature: Questions
   Scenario: Editing question                              # features/features/questions.feature:19
     Given There is a question created by another user     # features/step_definitions/question_steps.rb:25
     Then I do not see "Edit" link on this question's page # features/step_definitions/question_steps.rb:29
-      expected not to find text "Edit" in "Signed in successfully.Challenge App | Welcome, user11@example.com | Edit profile | Sign outQuestionsNew Question" (RSpec::Expectations::ExpectationNotMetError)
+      expected not to find text "Edit" in "Signed in successfully.Challenge App | Welcome, user17@example.com | Points: 100 | Edit profile | Sign outQuestionsNew Question" (RSpec::Expectations::ExpectationNotMetError)
       ./features/step_definitions/question_steps.rb:30:in `/^I do not see "(.*?)" link on this question's page$/'
       ./features/support/env.rb:71:in `call'
       ./features/support/env.rb:71:in `block (2 levels) in <top (required)>'
@@ -148,10 +177,12 @@ Feature: Registration
 Failing Scenarios:
 cucumber features/features/liking_answers.feature:10 # Scenario: Liking answer
 cucumber features/features/points.feature:21 # Scenario: Creating question
+cucumber features/features/points.feature:25 # Scenario: Having answer liked
+cucumber features/features/points.feature:30 # Scenario: Having answer accepted
 cucumber features/features/questions.feature:14 # Scenario: Creating questions with empty title
 cucumber features/features/questions.feature:19 # Scenario: Editing question
 cucumber features/features/registration.feature:3 # Scenario: Receiving free points
 
-12 scenarios (5 failed, 2 skipped, 5 passed)
-48 steps (5 failed, 16 skipped, 27 passed)
-0m1.424s
+12 scenarios (7 failed, 5 passed)
+48 steps (7 failed, 6 skipped, 35 passed)
+0m1.764s

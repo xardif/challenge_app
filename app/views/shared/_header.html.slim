@@ -9,7 +9,11 @@ header
   '  |
   - if user_signed_in?
     ' Welcome,
+    - if current_user.badged?
+      ' Superuser
     = current_user
+    '  | Points: 
+    = current_user.points
     '  |
     = link_to "Edit profile", edit_user_registration_path
     '  |

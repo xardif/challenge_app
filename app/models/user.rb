@@ -7,6 +7,13 @@ class User < ActiveRecord::Base
   has_many :questions
   has_many :answers
 
+  def save
+  	if self.points >= 1000
+  		self.badged = true
+  	end
+  	super
+  end
+
   def to_s
     email
   end

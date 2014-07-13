@@ -12,7 +12,7 @@ Then(/^That answer should have (\d+) like(s?)$/) do |count, suffix|
 end
 
 When(/^This answer is liked$/) do
-  sign_in_as(@answer.question.author)
+  sign_in_as(@answer.question.user)
   visit question_path(@answer.question)
   within "answer-#{@answer.id}" do
     click_on "Like"
@@ -22,7 +22,7 @@ When(/^This answer is liked$/) do
 end
 
 When(/^This answer is accepted$/) do
-  sign_in_as(@answer.question.author)
+  sign_in_as(@answer.question.user)
   visit question_path(@answer.question)
   within "answer-#{@answer.id}" do
     click_on "Accept"
