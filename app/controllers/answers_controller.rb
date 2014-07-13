@@ -28,6 +28,19 @@ class AnswersController < ApplicationController
     end
   end
 
+  def like
+    @answer = Answer.find(params[:id])
+    if @answer.liked_by.include? current_user.id
+      @answer.liked_by.delete(current_user.id)
+      redirect_to question_path(@question), notice: "You unliked an answer."
+    else
+      @answer.liked_by.append(current_user.id)
+      redirect_to question_path(@question), notice: "You liked an answer."
+    end
+    @answer.liked_by_will_change!
+    @answer.save
+  end
+
   private
 
     def set_question

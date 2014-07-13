@@ -6,10 +6,11 @@
   p
     = @question.contents
 
-  .links
-    = link_to 'Edit', edit_question_path(@question)
-    '  |
-    = link_to 'Delete', question_path(@question, method: :delete)
+  - if @question.user == current_user 
+    .links
+      = link_to 'Edit', edit_question_path(@question)
+      '  |
+      = link_to 'Delete', question_path(@question, method: :delete)
 
   h3 Answers
 

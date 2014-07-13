@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :questions do
     resources :answers, only: [:create]
     get "answers/:id/accept" => 'answers#accept', as: :answer_accept
+    get "answers/:id/like" => 'answers#like', as: :answer_like
   end
 
   resources :users, only: [:show]
