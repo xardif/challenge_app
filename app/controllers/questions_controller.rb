@@ -22,7 +22,9 @@ class QuestionsController < ApplicationController
     @question.user = current_user
     @question.user.points -= 10
 
-    if @question.user.points < 0
+    if question_params[:title].empty?
+      redirect_to questions_url, alert: 'There was an error.'  
+    elsif @question.user.points < 0
       redirect_to questions_url, alert: 'You have not enough points to create a question.'  
     elsif @question.save
       @question.user.save
