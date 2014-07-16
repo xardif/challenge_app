@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.1'
 gem 'pg'
 gem 'devise'
+gem 'delayed_job'
+gem 'delayed_job_active_record'
 
 # frontend
 gem 'slim-rails'
