@@ -10,6 +10,7 @@ class AnswersController < ApplicationController
     if answer_params[:contents].empty?
       redirect_to question_path(@question), alert: "There was an error when adding answer."
     elsif @answer.save
+      MyDeviseMailer.question_notification(@answer)
       redirect_to question_path(@question), notice: "Answer was successfully created."
     else
       redirect_to question_path(@question), alert: "There was an error when adding answer."
@@ -27,6 +28,7 @@ class AnswersController < ApplicationController
       @answer.user.points += 25
       @answer.user.save
       
+      MyDeviseMailer.answer_accept_notification(@answer)
       redirect_to question_path(@question), notice: "You accepted an answer."
     else
       redirect_to question_path(@question), alert: "This question already has an accepted answer."

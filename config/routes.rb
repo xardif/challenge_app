@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  default_url_options :host => "www.example.com"
+
   root to: 'questions#index'
 
   resources :questions do
