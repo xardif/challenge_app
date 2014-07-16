@@ -7,6 +7,8 @@ header
 
   = link_to "Challenge App", root_path
   '  |
+  = link_to "Leaderboard", leaderboard_path
+  '  |
   - if user_signed_in?
     ' Welcome,
     - if current_user.badged?

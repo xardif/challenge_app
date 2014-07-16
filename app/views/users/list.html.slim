@@ -1,0 +1,17 @@
+h2
+  ' Leaderboard
+
+table
+  thead
+    tr
+      th Id
+      th Name
+      th Email
+      th Points
+  tbody
+    - @users.each do |user|
+      tr
+        td = user.id
+        td = link_to user.username, user_path(user)
+        td = user.email
+        td = user.points
