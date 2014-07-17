@@ -1,6 +1,7 @@
 .answer id="answer-#{answer.id}"
   .contents
-  = answer.contents
+    = Markdown.new(answer.contents).to_html.html_safe
+    
   - if answer.id == @question.accepted_answer_id
   	.green Accepted
   .details
