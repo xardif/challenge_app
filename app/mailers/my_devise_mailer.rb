@@ -1,6 +1,6 @@
 class MyDeviseMailer < Devise::Mailer
 
-  default from: 'My App <www.example.com>'
+  default from: 'www.example.com'
 
   def question_notification(answer)
   	@answer = answer
