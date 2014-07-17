@@ -4,10 +4,11 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.1'
 gem 'pg'
 gem 'devise'
-gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'paperclip'
-gem 'aws-sdk'
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'oauth2'
 
 # frontend
 gem 'slim-rails'

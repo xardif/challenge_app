@@ -7,13 +7,14 @@ class ApplicationController < ActionController::Base
 
   protected
 	  def configure_permitted_parameters
-	    devise_parameter_sanitizer.for(:sign_up) << :username
-	    devise_parameter_sanitizer.for(:sign_in) << :login << :username
-	    devise_parameter_sanitizer.for(:account_update) << :username << :avatar
+	    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :avatar, :login, :provider, :uid, :email, :password, :password_confirmation) }
+	    devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:username, :login, :provider, :uid, :email, :password) }
+	    devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:username, :avatar, :login, :provider, :uid, :email, :password, :password_confirmation, :current_password) }
 	  end
 
-  private 
-	  def after_sign_out_path_for(resource_or_scope)
-	        request.referrer
-	  end
+  private
+
+	def after_sign_out_path_for(resource_or_scope)
+	  request.referrer
+	end
 end

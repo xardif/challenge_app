@@ -2,7 +2,9 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :omniauthable
   # :recoverable, :rememberable and :trackable
-  devise :database_authenticatable, :registerable, :validatable, :authentication_keys => [:login]
+  devise :database_authenticatable, :registerable, :validatable,
+  :omniauthable, :omniauth_providers => [:github],
+  :authentication_keys => [:login]
   attr_accessor :login
 
   has_many :questions
@@ -39,11 +41,33 @@ class User < ActiveRecord::Base
   end
 
   def self.find_for_database_authentication(warden_conditions)
-      conditions = warden_conditions.dup
-      if login = conditions.delete(:login)
-        where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
-      else
-        where(conditions).first
-      end
+    conditions = warden_conditions.dup
+    if login = conditions.delete(:login)
+      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+    else
+      where(conditions).first
     end
+  end
+
+  def self.find_for_oauth(auth, signed_in_resource = nil)
+    user = find_by(provider: auth.provider, uid: auth.uid)
+    user = signed_in_resource if signed_in_resource
+    if user.nil?
+      puts auth.info.email
+      email = auth.info.email
+      user = User.where(:email => email).first if email
+
+      if user.nil?
+        user = User.new(
+          username: auth.info.nickname || auth.uid,
+          email: email,
+          password: Devise.friendly_token[0,20]
+        )
+        user.save!
+      end
+      
+    end
+
+    user
+  end
 end
