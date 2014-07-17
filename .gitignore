@@ -17,3 +17,6 @@
 
 # Ignore local config files
 /config/database.yml
+
+# Ignore run file with exports
+run

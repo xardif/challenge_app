@@ -6,6 +6,8 @@ gem 'pg'
 gem 'devise'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
+gem 'paperclip'
+gem 'aws-sdk'
 
 # frontend
 gem 'slim-rails'
