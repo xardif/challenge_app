@@ -41,13 +41,19 @@ class AnswersController < ApplicationController
       @answer.liked_by.delete(current_user.id)
       @answer.user.points -= 5
       @answer.user.save
-      redirect_to question_path(@question), notice: "You unliked an answer."
+      @msg = "You unliked an answer."
     else
       @answer.liked_by.append(current_user.id)
       @answer.user.points += 5
       @answer.user.save
-      redirect_to question_path(@question), notice: "You liked an answer."
+      @msg = "You liked an answer."
     end
+
+    respond_to do |format|
+      format.html { redirect_to question_path(@answer.question), notice: @msg }
+      format.js
+    end
+
     @answer.liked_by_will_change!
     @answer.save
   end

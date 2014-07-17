@@ -20,6 +20,6 @@
     '  | 
   - if !current_user.blank?
   	- if answer.liked_by.include? current_user.id
-  		= link_to 'Unlike', question_answer_like_url(@question, answer)
+  		= link_to 'Unlike', question_answer_like_url(@question, answer), :remote => true
   	- else
-  		= link_to 'Like', question_answer_like_url(@question, answer)
+  		= link_to 'Like', question_answer_like_url(@question, answer), :remote => true
