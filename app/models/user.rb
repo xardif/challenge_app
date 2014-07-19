@@ -61,7 +61,9 @@ class User < ActiveRecord::Base
         user = User.new(
           username: auth.info.nickname || auth.uid,
           email: email,
-          password: Devise.friendly_token[0,20]
+          password: Devise.friendly_token[0,20],
+          provider: auth.provider,
+          uid: auth.uid
         )
         user.save!
       end

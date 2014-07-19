@@ -11,21 +11,23 @@ h2 Edit Profile
     = f.label :email
     = f.email_field :email
 
-  .field
-    = f.label :password
-    .hint
-      ' (leave blank if you don't want to change it)
-    = f.password_field :password, autocomplete: "off"
+  - if current_user.uid.blank? && current_user.provider.blank?
 
-  .field
-    = f.label :password_confirmation
-    = f.password_field :password_confirmation, autocomplete: "off"
+    .field
+      = f.label :password
+      .hint
+        ' (leave blank if you don't want to change it)
+      = f.password_field :password, autocomplete: "off"
 
-  .field
-    = f.label :current_password
-    .hint
-      ' (we need your current password to confirm your changes)
-    = f.password_field :current_password, autocomplete: "off"
+    .field
+      = f.label :password_confirmation
+      = f.password_field :password_confirmation, autocomplete: "off"
+
+    .field
+      = f.label :current_password
+      .hint
+        ' (we need your current password to confirm your changes)
+      = f.password_field :current_password, autocomplete: "off"
 
   p = image_tag @user.avatar.url(:thumb)
 
