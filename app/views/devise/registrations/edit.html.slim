@@ -11,7 +11,7 @@ h2 Edit Profile
     = f.label :email
     = f.email_field :email
 
-  - if current_user.uid.blank? && current_user.provider.blank?
+  - if current_user.from_oauth?
 
     .field
       = f.label :password

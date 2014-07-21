@@ -1,9 +1,9 @@
 h1 New answer notification!
 
 p
-  = link_to @answer.user, root_url[0..-2] + user_path(@answer.user)
+  = link_to @answer.user, user_url(@answer.user)
   '  replied to your question
-  = link_to @answer.question.title, root_url[0..-2] + question_path(@answer.question)
+  = link_to @answer.question.title, question_url(@answer.question)
 
 p
   = @answer.contents

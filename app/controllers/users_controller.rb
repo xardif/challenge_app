@@ -5,9 +5,7 @@ class UsersController < ApplicationController
   end
 
   def list
-  	@users = User.all
-  	@users = @users.sort_by &:points
-  	@users.reverse!
+  	@users = User.order('points DESC')
   end
 
   private

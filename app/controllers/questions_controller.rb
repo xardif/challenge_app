@@ -20,14 +20,13 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(question_params)
     @question.user = current_user
-    @question.user.points -= 10
 
-    if question_params[:title].empty?
+    if !@question.has_title?
       redirect_to questions_url, alert: 'There was an error.'  
     elsif @question.user.points < 0
       redirect_to questions_url, alert: 'You have not enough points to create a question.'  
     elsif @question.save
-      @question.user.save
+      @question.user.add_points!(-10)
       redirect_to @question, notice: 'Question was successfully created.'
     else
       render :new

@@ -1,9 +1,9 @@
 h1 Answer accepted!
 
 p
-  = link_to @answer.question.user, root_url[0..-2] + user_path(@answer.question.user)
+  = link_to @answer.question.user, user_url(@answer.question.user)
   '  accepted your answer on question:
-  = link_to @answer.question.title, root_url[0..-2] + question_path(@answer.question)
+  = link_to @answer.question.title, question_url(@answer.question)
 
 p
   = @answer.contents

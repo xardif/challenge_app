@@ -14,9 +14,13 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+/public/users
 
 # Ignore local config files
 /config/database.yml
 
 # Ignore run file with exports
 run
+
+# Ignore cucumber debugs
+cucumber_debug

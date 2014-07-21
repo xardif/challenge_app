@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :omniauthable
   # :recoverable, :rememberable and :trackable
+  before_save :give_badge
+
   devise :database_authenticatable, :registerable, :validatable,
   :omniauthable, :omniauth_providers => [:github],
   :authentication_keys => [:login]
@@ -21,23 +23,25 @@ class User < ActiveRecord::Base
     :case_sensitive => false
   }, format: { with: /\A[a-zA-Z0-9_]+\Z/ }
 
-  def login=(login)
-    @login = login
-  end
-
   def login
     @login || self.username || self.email
   end
 
-  def save
-  	if self.points >= 1000
-  		self.badged = true
-  	end
-  	super
+  def give_badge
+  	self.badged = true if self.points >= 1000
+  end
+
+  def add_points!(pts)
+    self.points += pts
+    self.save
   end
 
   def to_s
     username
+  end
+
+  def from_oauth?
+    self.uid.blank? && self.provider.blank?
   end
 
   def self.find_for_database_authentication(warden_conditions)

@@ -9,14 +9,18 @@ Rails.application.routes.draw do
   root to: 'questions#index'
 
   resources :questions do
-    resources :answers, only: [:create]
-    get "answers/:id/accept" => 'answers#accept', as: :answer_accept
-    get "answers/:id/like" => 'answers#like', as: :answer_like
+    resources :answers, only: [:create] do
+      post :accept
+      get :like
+      post :like
+    end 
   end
 
-  resources :users, only: [:show]
-
-  get "leaderboard" => 'users#list', as: :leaderboard
+  resources :users, only: [:show] do
+    collection do
+      get :leadboard, action: :list, as: :leaderboard
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
